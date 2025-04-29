@@ -1,0 +1,31 @@
+import pytest
+from shape import Circle, Triangle, calculate_area
+
+def test_circle_area():
+    assert Circle(2).area() == pytest.approx(12.56637, 0.01)
+
+def test_circle_invalid_radius():
+    with pytest.raises(ValueError):
+        Circle(-1)
+
+def test_triangle_area():
+    triangle = Triangle(3, 4, 5)
+    assert triangle.area() == pytest.approx(6.0)
+
+def test_invalid_triangle_sides():
+    with pytest.raises(ValueError):
+        Triangle(1, 1, 3)
+
+def test_right_triangle():
+    triangle = Triangle(3, 4, 5)
+    assert triangle.is_right_triangle()
+
+def test_non_right_triangle():
+    triangle = Triangle(2, 3, 4)
+    assert not triangle.is_right_triangle()
+
+def test_calculate_area_polymorphism():
+    shapes = [Circle(3), Triangle(3, 4, 5)]
+    areas = [28.2743, 6.0]
+    for shape, expected_area in zip(shapes, areas):
+        assert calculate_area(shape) == pytest.approx(expected_area, 0.01)
